@@ -1,0 +1,10 @@
+@import url(_image/popup__close_image.css);
+@import url(_form/popup__close_form.css);
+@import url(_type_profile/popup__close_type_profile.css);
+@import url(_type_card/popup__close_type_card.css);
+@import url(_type_image/popup__close_type_image.css);
+
+.popup__close {
+  width: 26px;
+  cursor: pointer;
+}
