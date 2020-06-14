@@ -1,6 +1,4 @@
 # Mesto
-link -> https://bobandmermaid.github.io/Mesto/
-
 Учебный проект на Яндекс.Практикум
 
 -- Сервис Mesto - HTML/CSS(flexbox, grid)/BEM/JavaScript(ES5/ES6).
@@ -11,3 +9,5 @@ link -> https://bobandmermaid.github.io/Mesto/
 • Сделана валидация форм добавления изображения и редактирования полей пользователя.
 • Сделан зум картинок.
 • В процессе подключения к серверу.
+
+link -> https://bobandmermaid.github.io/Mesto/
