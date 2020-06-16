@@ -6,12 +6,13 @@
 @import url(__button/popup__button.css);
 @import url(__button/_valid/popup__button_valid.css);
 @import url(_is-opened/popup_is-opened.css);
+@import url(_type_avatar/popup_type_avatar.css);
 @import url(_type_profile/popup_typy_profile.css);
 @import url(_type_image/popup_type_image.css);
 @import url(__image-container/popup__image-container.css);
 @import url(__image/popup__image.css);
 
-.popup{
+.popup {
   position: fixed;
   top: 0;
   left: 0;

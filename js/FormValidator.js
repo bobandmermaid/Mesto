@@ -1,6 +1,6 @@
 class FormValidator {
   constructor(someForm, errorMessages) {
-    this.someForm = someForm;
+    this._someForm = someForm;
     this._errorMessages = errorMessages;
     this.setListeners();
   }
@@ -22,7 +22,7 @@ class FormValidator {
   }
 
   inputErrorAdd = inputElement => {  // Присваиваем ошибку
-    this.errorMessage = this.someForm.querySelector(`#${inputElement.id}-error`);
+    this.errorMessage = this._someForm.querySelector(`#${inputElement.id}-error`);
     this.errorMessage.textContent = inputElement.validationMessage;
   }
 
@@ -44,7 +44,7 @@ class FormValidator {
 
   handlerInputForm = event => {  // Cлушатель на инпут
     this.isFieldValid(event.target);
-    if (this.someForm.checkValidity()) {
+    if (this._someForm.checkValidity()) {
       this.setSubmitButtonState(true);
     } else {
       this.setSubmitButtonState(false);
@@ -57,8 +57,8 @@ class FormValidator {
   }
 
   setListeners = () => {
-    this.errors = this.someForm.querySelectorAll('.error');
-    this.button = this.someForm.querySelector('.button');
-    this.someForm.addEventListener('input', this.handlerInputForm);
+    this.errors = this._someForm.querySelectorAll('.error');
+    this.button = this._someForm.querySelector('.button');
+    this._someForm.addEventListener('input', this.handlerInputForm);
   }
 }

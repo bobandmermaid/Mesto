@@ -1,13 +1,13 @@
 class PopupForm extends Popup {
-  constructor(popupElement, openButton, closeButton, resetPopup) {
+  constructor(popupElement, openButton, closeButton, clearPopup) {
     super(popupElement, closeButton);
     this._openButton = openButton;
-    this._resetPopup = resetPopup;
+    this._clearPopup = clearPopup;
     this.setListeners();
   }
 
   open = () => {
-    this._resetPopup();
+    this._clearPopup();
     super.open();
   }
 

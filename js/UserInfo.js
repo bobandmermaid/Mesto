@@ -1,17 +1,17 @@
 class UserInfo {
 
-  setUserInfo = ({ user, about }) => {
-    this._user = user;
+  setUserInfo = ({ name, about }) => {
+    this._name = name;
     this._about = about;
   }
 
   updateRender = (userElement, aboutElement) => {
-    userElement.textContent = this._user;
+    userElement.textContent = this._name;
     aboutElement.textContent = this._about;
   }
 
   getUserInfo = () => {
-    return { user: this._user, about: this._about };
+    return { name: this._name, about: this._about };
   }
 }
 

@@ -1,5 +1,6 @@
 @import url(_add/popup__button_add.css);
 @import url(_save/popup__button_save.css);
+@import url(_add-avatar/popup__button_add-avatar.css);
 
 .popup__button {
   width: 100%;

@@ -8,7 +8,6 @@
 
   const rootContainer = document.querySelector('.root');
   const placesList = rootContainer.querySelector('.places-list');
-  const form = rootContainer.querySelector('.popup__form');
 
   const userNameElement = rootContainer.querySelector('.user-info__name');
   const userAboutElement = rootContainer.querySelector('.user-info__job');
@@ -16,28 +15,28 @@
   const closeEditButton = rootContainer.querySelector('.popup__close_type_profile');
   const editForm = rootContainer.querySelector('.popup_type_profile');
   const formInfoEdit = rootContainer.querySelector('#edit');
+  const inputUser = rootContainer.querySelector('.popup__input_type_user');
+  const inputAbout = rootContainer.querySelector('.popup__input_type_about');
 
   const openCardButton = rootContainer.querySelector('.user-info__button');
   const closeCardButton = rootContainer.querySelector('.popup__close_type_card');
-  const cardForm = rootContainer.querySelector('.popup_type_card')
+  const cardForm = rootContainer.querySelector('.popup_type_card');
   const formAddNewCard = rootContainer.querySelector('#new');
 
   const closeImageButton = rootContainer.querySelector('.popup__close_type_image');
   const imagePopup = rootContainer.querySelector('.popup_type_image');
-  const imagePopupZoomPicture = document.querySelector('.popup__image')
+  const imagePopupZoomPicture = rootContainer.querySelector('.popup__image');
 
-  const link = formAddNewCard.elements.link;
-  const name = formAddNewCard.elements.name;
+  const config = {
+    baseUrl: 'https://praktikum.tk/cohort11',
+    headers: {
+      authorization: '3d586cb3-b972-4364-9e4e-d3f459cab5c9',
+      'Content-Type': 'application/json'
+    }
+  };
 
-  const editPopup = new PopupForm(editForm, openEditButton, closeEditButton, resetPopup);
-  const cardPopup = new PopupForm(cardForm, openCardButton, closeCardButton, resetPopup);
-  const popupPicture = new Popup(imagePopup, closeImageButton);
-  const formValidCardAdd = new FormValidator(formAddNewCard, errorMessages);
-  const formValidEdit = new FormValidator(formInfoEdit, errorMessages);
-  const userInfo = new UserInfo();
+  const api = new Api(config);
 
-  // Массив карточек на страницу
-  const cardsArray = [];
   function iteratingArray(arr) {
     arr.forEach(function (item) {
       const card = new Card(item.link, item.name, addImg);
@@ -45,93 +44,105 @@
       cardsArray.push(newCard);
     });
   }
-  iteratingArray(initialCards);
-
-  const cardList = new CardList(placesList, cardsArray);
-  cardList.render();
 
   function addImg(url) {
     imagePopupZoomPicture.src = url;
     popupPicture.open();
   }
 
-  // Чистка ошибок и полей форм
-  function resetPopup() {
-    form.reset();
+// Чистка полей форм
+  function formReset(item) {
+    item.reset();
+  }
+
+  // Чистка ошибок форм
+  function clearPopup() {
     formValidCardAdd.resetErrorsPopup();
     formValidEdit.resetErrorsPopup();
 
     formValidCardAdd.setSubmitButtonState(false);
   }
 
+  const cardsArray = [];
+  const cardList = new CardList(placesList, cardsArray);
+  const editPopup = new PopupForm(editForm, openEditButton, closeEditButton, clearPopup);
+  const cardPopup = new PopupForm(cardForm, openCardButton, closeCardButton, clearPopup);
+  const popupPicture = new Popup(imagePopup, closeImageButton);
+  const formValidCardAdd = new FormValidator(formAddNewCard, errorMessages);
+  const formValidEdit = new FormValidator(formInfoEdit, errorMessages);
+  const userInfo = new UserInfo();
+
+  api.getInitialCards()
+    .then(res => {
+     cardList.render(iteratingArray(res));
+    })
+    .catch(err => {
+       console.log(err);
+    });
+
+  api.getUsersInfo()
+    .then(data => {
+      userInfo.setUserInfo({name: data.name, about: data.about});
+      userInfo.updateRender(userNameElement, userAboutElement);
+    })
+    .catch(err => {
+        console.log(err);
+    });
+
   // Добавление новой карточки
   function sendFormAdd(event) {
     event.preventDefault();
 
-    const card = new Card(link.value, name.value, addImg);
-    cardList.addCard(card.create());
+    const link = formAddNewCard.elements.link;
+    const name = formAddNewCard.elements.name;
 
-    cardPopup.close();
     formValidCardAdd.setSubmitButtonState(false);
+    api.addCardPage(name, link)
+      .then(() => {
+        const card = new Card(link.value, name.value, addImg);
+        cardList.addCard(card.create());
+        formReset(formAddNewCard);
+        cardPopup.close();
+      })
+      .catch(err => {
+        alert(err);
+      })
+      .finally(() => {
+        formValidCardAdd.setSubmitButtonState(true);
+      })
   }
 
   function sendFormEdit(event) {
     event.preventDefault();
 
-    const user = formInfoEdit.elements.user.value;
-    const about = formInfoEdit.elements.about.value;
-    userInfo.setUserInfo({ user, about });
-    userInfo.updateRender(userNameElement, userAboutElement);
+    const name = inputUser.value;
+    const about = inputAbout.value;
 
-    editPopup.close();
+    api.updateUserInfo(name, about)
+      .then((data) => {
+        userInfo.setUserInfo({name: data.name, about: data.about});
+        userInfo.updateRender(userNameElement, userAboutElement);
+        editPopup.close();
+      })
+      .catch(err => {
+        alert(err);
+      });
   }
 
   // Добавление данных пользователя в поля формы
   function inputPopupEditAdd() {
 
     const getUserAbout = userInfo.getUserInfo();
-    formInfoEdit.elements.user.value = getUserAbout.user;
-    formInfoEdit.elements.about.value = getUserAbout.about;
+    inputUser.value = getUserAbout.name;
+    inputAbout.value = getUserAbout.about;
 
     formValidEdit.setSubmitButtonState(true);
   }
 
-  userInfo.setUserInfo({ user: 'Jaques Causteau', about: 'Sailor, Researcher' });
-  userInfo.updateRender(userNameElement, userAboutElement);
-
+  closeCardButton.addEventListener('click', () => {
+    formReset(formAddNewCard);
+  });
   openEditButton.addEventListener('click', inputPopupEditAdd);
   formAddNewCard.addEventListener('submit', sendFormAdd);
   formInfoEdit.addEventListener('submit', sendFormEdit);
 })();
-
-// Добрый день!
-
-// Хорошая и акууратная работа!
-
-// ## Итог
-// - Использованы ES6-классы.
-// - В классах напрямую не создаются экземпляры других классов.
-// - Каждый класс выполняет строго одну задачу. Всё, что относится к решению этой задачи, находится в классе.
-// - Делегирование больше не используется. Обработчики добавлены именно тем элементам, события которых нужно отслеживать.
-// - Ненужные обработчики удаляются.
-// - Каждый класс описан в отдельном JS-файле.
-
-// Работа принята
-
-// Можно лучше
-// Большое количество параметров лучше передвать в метод или в конструктор используя деструктуризацию.
-
-// Например в коде:
-// ~~~
-// const newClass = new Class({ windowOne, userForm, popupObj })
-// ~~~
-// А внутри класса:
-// ~~~
-// constructor ({ userForm, popupObj, windowOne }) {...}
-// ~~~
-// И тогда порядок переменных будет неважен, это удобно
-
-// Можно лучше
-// Воспользуйтесь `<template>` -- https://developer.mozilla.org/ru/docs/Web/HTML/Element/template
-// И `cloneNode` -- https://developer.mozilla.org/ru/docs/Web/API/Node/cloneNode
-// для удобного тиражирования одинаковых объектов
