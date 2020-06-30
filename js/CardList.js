@@ -5,7 +5,7 @@ class CardList {
   }
 
   addCard = card => {
-    this._cardsList.appendChild(card);
+    this._cardsList.append(card);
   }
 
   render = () => {

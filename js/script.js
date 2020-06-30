@@ -14,6 +14,7 @@
   const openEditButton = rootContainer.querySelector('.user-info__edit');
   const closeEditButton = rootContainer.querySelector('.popup__close_type_profile');
   const editForm = rootContainer.querySelector('.popup_type_profile');
+  const userFace = rootContainer.querySelector('.user-info__photo');
   const formInfoEdit = rootContainer.querySelector('#edit');
   const inputUser = rootContainer.querySelector('.popup__input_type_user');
   const inputAbout = rootContainer.querySelector('.popup__input_type_about');
@@ -22,10 +23,19 @@
   const closeCardButton = rootContainer.querySelector('.popup__close_type_card');
   const cardForm = rootContainer.querySelector('.popup_type_card');
   const formAddNewCard = rootContainer.querySelector('#new');
+  const cardsArray = [];
 
   const closeImageButton = rootContainer.querySelector('.popup__close_type_image');
   const imagePopup = rootContainer.querySelector('.popup_type_image');
   const imagePopupZoomPicture = rootContainer.querySelector('.popup__image');
+
+  const cardList = new CardList(placesList, cardsArray);
+  const editPopup = new PopupForm(editForm, openEditButton, closeEditButton, clearPopup);
+  const cardPopup = new PopupForm(cardForm, openCardButton, closeCardButton, clearPopup);
+  const popupPicture = new Popup(imagePopup, closeImageButton);
+  const formValidCardAdd = new FormValidator(formAddNewCard, errorMessages);
+  const formValidEdit = new FormValidator(formInfoEdit, errorMessages);
+  const userInfo = new UserInfo();
 
   const config = {
     baseUrl: 'https://praktikum.tk/cohort11',
@@ -37,17 +47,32 @@
 
   const api = new Api(config);
 
+  function openImageCallback(url) {
+    imagePopupZoomPicture.src = url;
+    popupPicture.open();
+  }
+
+  function likeState(liked, id) {
+    if (liked) {
+      return api.setLikeCard(id);
+    } else {
+      return api.unLikeCard(id);
+    }
+  }
+
+  function removeCard(id) {
+    api.removeCard(id)
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   function iteratingArray(arr) {
     arr.forEach(function (item) {
-      const card = new Card(item.link, item.name, addImg);
+      const card = new Card(item, userInfo._id, openImageCallback, removeCard, likeState);
       const newCard = card.create();
       cardsArray.push(newCard);
     });
-  }
-
-  function addImg(url) {
-    imagePopupZoomPicture.src = url;
-    popupPicture.open();
   }
 
 // Чистка полей форм
@@ -63,15 +88,6 @@
     formValidCardAdd.setSubmitButtonState(false);
   }
 
-  const cardsArray = [];
-  const cardList = new CardList(placesList, cardsArray);
-  const editPopup = new PopupForm(editForm, openEditButton, closeEditButton, clearPopup);
-  const cardPopup = new PopupForm(cardForm, openCardButton, closeCardButton, clearPopup);
-  const popupPicture = new Popup(imagePopup, closeImageButton);
-  const formValidCardAdd = new FormValidator(formAddNewCard, errorMessages);
-  const formValidEdit = new FormValidator(formInfoEdit, errorMessages);
-  const userInfo = new UserInfo();
-
   api.getInitialCards()
     .then(res => {
      cardList.render(iteratingArray(res));
@@ -82,8 +98,9 @@
 
   api.getUsersInfo()
     .then(data => {
-      userInfo.setUserInfo({name: data.name, about: data.about});
+      userInfo.setUserInfo({name: data.name, about: data.about, id: data._id});
       userInfo.updateRender(userNameElement, userAboutElement);
+      userFace.style.backgroundImage = `url(${data.avatar})`;
     })
     .catch(err => {
         console.log(err);
@@ -98,8 +115,8 @@
 
     formValidCardAdd.setSubmitButtonState(false);
     api.addCardPage(name, link)
-      .then(() => {
-        const card = new Card(link.value, name.value, addImg);
+      .then(elem => {
+        const card = new Card(elem, userInfo._id, openImageCallback, removeCard, likeState);
         cardList.addCard(card.create());
         formReset(formAddNewCard);
         cardPopup.close();

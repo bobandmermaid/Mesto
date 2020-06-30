@@ -46,6 +46,33 @@ class Api {
         this._getResponseData(res));
   }
 
+  removeCard = (id) => {
+    return fetch(`${this.baseUrl}/cards/${id}`, {
+      method: 'DELETE',
+      headers: this.headers,
+    })
+      .then(res =>
+        this._getResponseData(res));
+  }
+
+  setLikeCard = id => {
+    return fetch(`${this.baseUrl}/cards/like/${id}`, {
+      method: 'PUT',
+      headers: this.headers,
+    })
+      .then(res =>
+          this._getResponseData(res));
+  }
+
+  unLikeCard = id => {
+    return fetch(`${this.baseUrl}/cards/like/${id}`, {
+      method: 'DELETE',
+      headers: this.headers,
+    })
+      .then(res =>
+        this._getResponseData(res));
+  }
+
   _getResponseData = res => {
     if (!res.ok) {
       return Promise.reject(`Ошибка: ${res.status}`);
