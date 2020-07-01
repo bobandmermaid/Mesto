@@ -58,7 +58,7 @@ class Card {
           this.iconLikeButtonElement.classList.remove('place-card__like-icon_liked');
         })
         .catch(err => {
-          alert(err);
+          console.log(err);
         });
     } else {
       this._likeState(true, this._id)
@@ -67,7 +67,7 @@ class Card {
           this.iconLikeButtonElement.classList.add('place-card__like-icon_liked');
           })
         .catch(err => {
-          alert(err);
+          console.log(err);
         });
     }
   }
