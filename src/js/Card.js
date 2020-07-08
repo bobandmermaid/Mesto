@@ -1,4 +1,4 @@
-class Card {
+export default class Card {
 
   constructor(data, ownerId, openImageCallback, removeCard, likeState) {
     this._link = data.link;
@@ -10,9 +10,12 @@ class Card {
     this._openImageCallback = openImageCallback;
     this._removeCard = removeCard;
     this._likeState = likeState;
+    this.like = this.like.bind(this);
+    this.openImg = this.openImg.bind(this);
+    this.remove = this.remove.bind(this);
   }
 
-  create() {
+  create () {
     this.placeCard = document.createElement('div');
     this.imageElement = document.createElement('div');
     this.iconDeleteButtonElement = document.createElement('button');
@@ -50,7 +53,7 @@ class Card {
     return this.placeCard;
   }
 
-  like = () => {
+  like () {
     if (this.iconLikeButtonElement.classList.contains('place-card__like-icon_liked')) {
       this._likeState(false, this._id)
         .then(res => {
@@ -58,37 +61,37 @@ class Card {
           this.iconLikeButtonElement.classList.remove('place-card__like-icon_liked');
         })
         .catch(err => {
-          console.log(err);
+          alert(err);
         });
     } else {
       this._likeState(true, this._id)
         .then(res => {
           this.likeCounterElement.textContent = res.likes.length;
           this.iconLikeButtonElement.classList.add('place-card__like-icon_liked');
-          })
+        })
         .catch(err => {
-          console.log(err);
+          alert(err);
         });
     }
   }
 
-  isLiked = () => {
+  isLiked ()  {
     if (this.likes.some(elem => elem._id === this.ownerId)) {
       this.iconLikeButtonElement.classList.add('place-card__like-icon_liked');
     }
   }
 
-  setDeleteButton = () => {
+  setDeleteButton () {
     if (this.owner._id === this.ownerId) {
       this.iconDeleteButtonElement.style.display = 'block';
     }
   }
 
-  openImg = () => {
+  openImg () {
     this._openImageCallback(this._link);
   }
 
-  remove = () => {
+  remove () {
     if (window.confirm('Вы действительно хотите удалить эту карточку?')) {
       this._removeCard(this._id);
       this.removeListeners();
@@ -96,7 +99,7 @@ class Card {
     }
   }
 
-  setListeners() {
+  setListeners () {
     this
       .iconLikeButtonElement
       .addEventListener('click', this.like);
@@ -108,7 +111,7 @@ class Card {
       .addEventListener('click', this.openImg);
   }
 
-  removeListeners() {
+  removeListeners () {
     this
       .iconLikeButtonElement
       .removeEventListener('click', this.like);
