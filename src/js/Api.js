@@ -4,7 +4,7 @@ export default class Api {
     this.headers = config.headers;
   }
 
-  getInitialCards () {
+  getInitialCards = () => {
     return fetch(`${this.baseUrl}/cards`, {
       headers: this.headers
     })
@@ -12,7 +12,7 @@ export default class Api {
         this._getResponseData(res));
   }
 
-  addCardPage (name, link) {
+  addCardPage = (name, link) => {
     return fetch(`${this.baseUrl}/cards`, {
       method: 'POST',
       headers: this.headers,
@@ -25,7 +25,7 @@ export default class Api {
         this._getResponseData(res));
   }
 
-  getUsersInfo () {
+  getUsersInfo = () => {
     return fetch(`${this.baseUrl}/users/me`, {
       headers: this.headers
     })
@@ -33,7 +33,7 @@ export default class Api {
         this._getResponseData(res));
   }
 
-  updateUserInfo (name, about) {
+  updateUserInfo = (name, about) => {
     return fetch(`${this.baseUrl}/users/me`, {
       method: 'PATCH',
       headers: this.headers,
@@ -46,7 +46,7 @@ export default class Api {
         this._getResponseData(res));
   }
 
-  removeCard (id) {
+  removeCard = (id) => {
     return fetch(`${this.baseUrl}/cards/${id}`, {
       method: 'DELETE',
       headers: this.headers,
@@ -55,7 +55,7 @@ export default class Api {
         this._getResponseData(res));
   }
 
-  setLikeCard (id) {
+  setLikeCard = id => {
     return fetch(`${this.baseUrl}/cards/like/${id}`, {
       method: 'PUT',
       headers: this.headers,
@@ -64,7 +64,7 @@ export default class Api {
         this._getResponseData(res));
   }
 
-  unLikeCard (id) {
+  unLikeCard = id => {
     return fetch(`${this.baseUrl}/cards/like/${id}`, {
       method: 'DELETE',
       headers: this.headers,
@@ -73,7 +73,7 @@ export default class Api {
         this._getResponseData(res));
   }
 
-  _getResponseData (res) {
+  _getResponseData = res => {
     if (!res.ok) {
       return Promise.reject(`Ошибка: ${res.status}`);
     }

@@ -4,11 +4,11 @@ export default class CardList {
     this._cardsArray = cardsArray;
   }
 
-  addCard (card) {
+  addCard = (card) => {
     this._cardsList.append(card);
   }
 
-  render () {
+  render = () => {
     this._cardsArray.forEach(item => {
       this.addCard(item);
     });

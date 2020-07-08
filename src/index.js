@@ -38,17 +38,17 @@ const imagePopupZoomPicture = rootContainer.querySelector('.popup__image');
 
 const cardList = new CardList(placesList, cardsArray);
 const editPopup = new PopupForm(editForm, openEditButton, closeEditButton, clearPopup);
-editPopup.setListeners();
 const cardPopup = new PopupForm(cardForm, openCardButton, closeCardButton, clearPopup);
-cardPopup.setListeners();
 const popupPicture = new Popup(imagePopup, closeImageButton);
-popupPicture.setListeners();
 const formValidCardAdd = new FormValidator(formAddNewCard, errorMessages);
 const formValidEdit = new FormValidator(formInfoEdit, errorMessages);
 const userInfo = new UserInfo();
 
+const API_URL = process.env.NODE_ENV ===
+'production' ? 'https://praktikum.tk/cohort11' : 'http://praktikum.tk/cohort11';
+
 const config = {
-  baseUrl: 'https://praktikum.tk/cohort11',
+  baseUrl: API_URL,
   headers: {
     authorization: '3d586cb3-b972-4364-9e4e-d3f459cab5c9',
     'Content-Type': 'application/json'

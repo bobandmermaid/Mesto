@@ -5,24 +5,17 @@ export default class PopupForm extends Popup {
     super(popupElement, closeButton);
     this._openButton = openButton;
     this._clearPopup = clearPopup;
-    this.setListeners = this.setListeners.bind(this);
+    this.setListeners();
   }
 
-  open () {
+  open = () => {
     this._clearPopup();
     super.open();
   }
 
-  close () {
-    super.close();
-  }
-
-  setListeners () {
+  setListeners = () => {
     this
       ._openButton
       .addEventListener('click', this.open);
-    this
-      ._closeButton
-      .addEventListener('click', this.close);
   }
 }
