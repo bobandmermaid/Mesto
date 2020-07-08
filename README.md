@@ -23,9 +23,17 @@
 + CSS(flexbox, grid)
 + BEM
 + JavaScript(ES5/ES6)
++ Webpack
 
 ### Посмотреть 
 https://bobandmermaid.github.io/Mesto/
+
+### Разворачивание проекта
++ Установить node.js, webpack
++ Клонировать репозиторий https://github.com/bobandmermaid/Mesto.git
++ npm install (установка пакетов)
++ npm run dev (сборка проекта в режиме разработки)
++ npm run build (сборка проекта для развертывания)
   
 ### Что планируется:
 + ~~Отображение количества лайков карточки~~
