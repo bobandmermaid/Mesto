@@ -1,4 +1,5 @@
 # Mesto
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/bobandmermaid/Mesto?style=flat-square)
 
 ### О проекте
 + Mesto – интерактивный сервис для работы с фотографиями   
@@ -19,13 +20,21 @@
   + Можно ставить и удалять лайки
   
 ### Стек
-+ HTML
-+ CSS(flexbox, grid)
-+ BEM
-+ JavaScript(ES5/ES6)
+`HTML`  
+`CSS(flexbox, grid)`   
+`BEM`  
+`JavaScript(ES5/ES6)`  
+`Webpack`
 
 ### Посмотреть 
 https://bobandmermaid.github.io/Mesto/
+
+### Разворачивание проекта
+1. Установить node.js, webpack
+2. Клонировать репозиторий https://github.com/bobandmermaid/Mesto.git
+3. `npm i` (установить пакеты)
+4. `npm run dev` (сборка проекта в режиме разработки)
+5. `npm run build` (сборка проекта для развертывания)
   
 ### Что планируется:
 + ~~Отображение количества лайков карточки~~

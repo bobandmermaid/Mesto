@@ -1,4 +1,4 @@
-class Api {
+export default class Api {
   constructor(config) {
     this.baseUrl = config.baseUrl;
     this.headers = config.headers;
@@ -61,7 +61,7 @@ class Api {
       headers: this.headers,
     })
       .then(res =>
-          this._getResponseData(res));
+        this._getResponseData(res));
   }
 
   unLikeCard = id => {

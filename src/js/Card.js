@@ -1,4 +1,4 @@
-class Card {
+export default class Card {
 
   constructor(data, ownerId, openImageCallback, removeCard, likeState) {
     this._link = data.link;
@@ -12,7 +12,7 @@ class Card {
     this._likeState = likeState;
   }
 
-  create() {
+  create () {
     this.placeCard = document.createElement('div');
     this.imageElement = document.createElement('div');
     this.iconDeleteButtonElement = document.createElement('button');
@@ -58,16 +58,16 @@ class Card {
           this.iconLikeButtonElement.classList.remove('place-card__like-icon_liked');
         })
         .catch(err => {
-          console.log(err);
+          alert(err);
         });
     } else {
       this._likeState(true, this._id)
         .then(res => {
           this.likeCounterElement.textContent = res.likes.length;
           this.iconLikeButtonElement.classList.add('place-card__like-icon_liked');
-          })
+        })
         .catch(err => {
-          console.log(err);
+          alert(err);
         });
     }
   }
@@ -96,7 +96,7 @@ class Card {
     }
   }
 
-  setListeners() {
+  setListeners () {
     this
       .iconLikeButtonElement
       .addEventListener('click', this.like);
@@ -108,7 +108,7 @@ class Card {
       .addEventListener('click', this.openImg);
   }
 
-  removeListeners() {
+  removeListeners () {
     this
       .iconLikeButtonElement
       .removeEventListener('click', this.like);

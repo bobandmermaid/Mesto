@@ -1,5 +1,4 @@
-class UserInfo {
-
+export default class UserInfo {
   setUserInfo = ({ name, about, id }) => {
     this._name = name;
     this._about = about;
