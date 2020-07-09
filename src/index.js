@@ -7,6 +7,8 @@ import Popup from "./js/Popup"
 import PopupForm from "./js/PopupForm"
 import UserInfo from "./js/UserInfo"
 
+(function () {
+
 const errorMessages = {
   valueMissing: 'Это обязательное поле',
   tooShort: 'Должно быть от 2 до 30 символов',
@@ -44,8 +46,10 @@ const formValidCardAdd = new FormValidator(formAddNewCard, errorMessages);
 const formValidEdit = new FormValidator(formInfoEdit, errorMessages);
 const userInfo = new UserInfo();
 
-const API_URL = process.env.NODE_ENV ===
-'production' ? 'https://praktikum.tk/cohort11' : 'http://praktikum.tk/cohort11';
+const API_URL =
+  NODE_ENV === 'production'
+    ? 'https://praktikum.tk/cohort11'
+    : 'http://praktikum.tk/cohort11';
 
 const config = {
   baseUrl: API_URL,
@@ -172,3 +176,5 @@ closeCardButton.addEventListener('click', () => {
 openEditButton.addEventListener('click', inputPopupEditAdd);
 formAddNewCard.addEventListener('submit', sendFormAdd);
 formInfoEdit.addEventListener('submit', sendFormEdit);
+
+})();
