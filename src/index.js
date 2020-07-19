@@ -6,6 +6,8 @@ import FormValidator from "./js/FormValidator"
 import Popup from "./js/Popup"
 import PopupForm from "./js/PopupForm"
 import UserInfo from "./js/UserInfo"
+import { config } from "./js/config";
+export const options = JSON.parse(config);
 
 (function () {
 
@@ -46,20 +48,7 @@ const formValidCardAdd = new FormValidator(formAddNewCard, errorMessages);
 const formValidEdit = new FormValidator(formInfoEdit, errorMessages);
 const userInfo = new UserInfo();
 
-const API_URL =
-  NODE_ENV === 'production'
-    ? 'https://praktikum.tk/cohort11'
-    : 'http://praktikum.tk/cohort11';
-
-const config = {
-  baseUrl: API_URL,
-  headers: {
-    authorization: '3d586cb3-b972-4364-9e4e-d3f459cab5c9',
-    'Content-Type': 'application/json'
-  }
-};
-
-const api = new Api(config);
+const api = new Api(options);
 
 function openImageCallback(url) {
   imagePopupZoomPicture.src = url;

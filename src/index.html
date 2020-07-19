@@ -10,7 +10,7 @@
 <body>
   <div class="root">
     <header class="header root__section">
-      <img src="<%=require('./images/logo.svg').default%>" alt="mesto logo" class="logo">
+      <img src="<%=require('./images/logo.svg')%>" alt="mesto logo" class="logo">
     </header>
     <div class="profile root__section">
       <div class="user-info">
@@ -27,7 +27,7 @@
     </div>
     <div class="popup popup_type_card">
       <div class="popup__content">
-        <img src="<%=require('./images/close.svg').default%>" alt="" class="popup__close popup__close_form popup__close_type_card">
+        <img src="<%=require('./images/close.svg')%>" alt="" class="popup__close popup__close_form popup__close_type_card">
         <h3 class="popup__title">Новое место</h3>
         <form class="popup__form" id="new" name="new" novalidate>
           <input id="name" type="text" name="name" class="popup__input popup__input_type_name" placeholder="Название" required minlength="2" maxlength="30">
@@ -40,7 +40,7 @@
     </div>
     <div class="popup popup_type_profile">
       <div class="popup__content">
-        <img src="<%=require('./images/close.svg').default%>" alt="" class="popup__close popup__close_form popup__close_type_profile">
+        <img src="<%=require('./images/close.svg')%>" alt="" class="popup__close popup__close_form popup__close_type_profile">
         <h3 class="popup__title">Редактировать профиль</h3>
         <form class="popup__form" id="edit" name="edit" novalidate>
           <input id="user" type="text" name="user" class="popup__input popup__input_type_user" placeholder="Имя" required minlength="2" maxlength="30">
@@ -53,7 +53,7 @@
     </div>
     <div class="popup popup_type_image">
       <div class="popup__image-container">
-        <img src="<%=require('./images/close.svg').default%>" alt="" class="popup__close popup__close_image popup__close_type_image">
+        <img src="<%=require('./images/close.svg')%>" alt="" class="popup__close popup__close_image popup__close_type_image">
         <img src="" alt="" class="popup__image">
       </div>
     </div>

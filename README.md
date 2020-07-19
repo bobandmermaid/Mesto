@@ -24,7 +24,8 @@
 `CSS(flexbox, grid)`   
 `BEM`  
 `JavaScript(ES5/ES6)`  
-`Webpack`
+`Webpack`  
+`Babel`
 
 ### Посмотреть 
 https://bobandmermaid.github.io/Mesto/
