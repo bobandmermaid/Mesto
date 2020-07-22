@@ -1,5 +1,5 @@
 # Mesto
-![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/bobandmermaid/Mesto?style=flat-square)
+![GitHub package.json version](https://img.shields.io/github/package-json/v/bobandmermaid/Mesto?style=flat-square)
 
 ### О проекте
 + Mesto – интерактивный сервис для работы с фотографиями   
