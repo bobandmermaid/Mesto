@@ -25,7 +25,6 @@ const userAboutElement = rootContainer.querySelector('.user-info__job');
 const openEditButton = rootContainer.querySelector('.user-info__edit');
 const closeEditButton = rootContainer.querySelector('.popup__close_type_profile');
 const editForm = rootContainer.querySelector('.popup_type_profile');
-const userFace = rootContainer.querySelector('.user-info__photo');
 const formInfoEdit = rootContainer.querySelector('#edit');
 const inputUser = rootContainer.querySelector('.popup__input_type_user');
 const inputAbout = rootContainer.querySelector('.popup__input_type_about');
@@ -40,12 +39,21 @@ const closeImageButton = rootContainer.querySelector('.popup__close_type_image')
 const imagePopup = rootContainer.querySelector('.popup_type_image');
 const imagePopupZoomPicture = rootContainer.querySelector('.popup__image');
 
+const avatarForm = rootContainer.querySelector('.popup_type_avatar');
+const formAddAvatar = rootContainer.querySelector('#avatar');
+const openAvatar = rootContainer.querySelector('.user-info__photo');
+const closeAvatarButton = rootContainer.querySelector('.popup__close_avatar');
+const userFace = rootContainer.querySelector('.user-info__photo');
+
 const cardList = new CardList(placesList, cardsArray);
 const editPopup = new PopupForm(editForm, openEditButton, closeEditButton, clearPopup);
 const cardPopup = new PopupForm(cardForm, openCardButton, closeCardButton, clearPopup);
+const avatarPopup = new PopupForm(avatarForm, openAvatar, closeAvatarButton, clearPopup);
 const popupPicture = new Popup(imagePopup, closeImageButton);
 const formValidCardAdd = new FormValidator(formAddNewCard, errorMessages);
 const formValidEdit = new FormValidator(formInfoEdit, errorMessages);
+// Кастомная валидация не работает у аватара. Немогу понять почему...
+const formValidAvatar = new FormValidator(formAddAvatar, errorMessages);
 const userInfo = new UserInfo();
 
 const api = new Api(options);
@@ -89,6 +97,9 @@ function clearPopup() {
   formValidEdit.resetErrorsPopup();
 
   formValidCardAdd.setSubmitButtonState(false);
+
+  formValidAvatar.resetErrorsPopup();
+  // formValidAvatar.setSubmitButtonState(true);
 }
 
 api.getInitialCards()
@@ -125,7 +136,7 @@ function sendFormAdd(event) {
       cardPopup.close();
     })
     .catch(err => {
-      alert(err);
+      console.log(err);
     })
     .finally(() => {
       formValidCardAdd.setSubmitButtonState(true);
@@ -139,13 +150,28 @@ function sendFormEdit(event) {
   const about = inputAbout.value;
 
   api.updateUserInfo(name, about)
-    .then((data) => {
+    .then(data => {
       userInfo.setUserInfo({name: data.name, about: data.about});
       userInfo.updateRender(userNameElement, userAboutElement);
       editPopup.close();
     })
     .catch(err => {
-      alert(err);
+      console.log(err);
+    })
+}
+
+function sendFormAvatar(event) {
+  event.preventDefault();
+
+  const link = formAddAvatar.elements.link;
+
+  api.addNewAvatar(link)
+    .then(data => {
+      openAvatar.style.backgroundImage = `url(${data.avatar})`;
+      avatarPopup.close();
+    })
+    .catch(err => {
+      console.log(err);
     });
 }
 
@@ -165,5 +191,6 @@ closeCardButton.addEventListener('click', () => {
 openEditButton.addEventListener('click', inputPopupEditAdd);
 formAddNewCard.addEventListener('submit', sendFormAdd);
 formInfoEdit.addEventListener('submit', sendFormEdit);
+formAddAvatar.addEventListener('submit', sendFormAvatar);
 
 })();

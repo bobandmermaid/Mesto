@@ -73,6 +73,18 @@ export default class Api {
         this._getResponseData(res));
   }
 
+  addNewAvatar = (link) => {
+    return fetch(`${this.baseUrl}/users/me/avatar`, {
+      method: 'PATCH',
+      headers: this.headers,
+      body: JSON.stringify({
+        avatar: link.value
+      })
+    })
+      .then(res =>
+        this._getResponseData(res));
+  }
+
   _getResponseData = res => {
     if (!res.ok) {
       return Promise.reject(`Ошибка: ${res.status}`);
