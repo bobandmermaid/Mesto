@@ -1,7 +1,7 @@
 const API_URL =
   NODE_ENV === 'production'
-    ? 'https://praktikum.tk'
-    : 'http://praktikum.tk';
+    ? 'https://nomoreparties.co'
+    : 'http://nomoreparties.co';
 
 const obj = {
   baseUrl: `${API_URL}/cohort11`,
