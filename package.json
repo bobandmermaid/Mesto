@@ -1,6 +1,6 @@
 {
   "name": "mesto",
-  "version": "1.1.9",
+  "version": "1.1.10",
   "description": "interactive service for working with photos",
   "main": "./src/index.js",
   "scripts": {
