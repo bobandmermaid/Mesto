@@ -44,16 +44,19 @@ const formAddAvatar = rootContainer.querySelector('#avatar');
 const openAvatar = rootContainer.querySelector('.user-info__photo');
 const closeAvatarButton = rootContainer.querySelector('.popup__close_avatar');
 const userFace = rootContainer.querySelector('.user-info__photo');
+// const inputAvatar = rootContainer.querySelector('.popup__input_type_avatar');
 
 const cardList = new CardList(placesList, cardsArray);
+
 const editPopup = new PopupForm(editForm, openEditButton, closeEditButton, clearPopup);
 const cardPopup = new PopupForm(cardForm, openCardButton, closeCardButton, clearPopup);
 const avatarPopup = new PopupForm(avatarForm, openAvatar, closeAvatarButton, clearPopup);
 const popupPicture = new Popup(imagePopup, closeImageButton);
+
 const formValidCardAdd = new FormValidator(formAddNewCard, errorMessages);
 const formValidEdit = new FormValidator(formInfoEdit, errorMessages);
-// Кастомная валидация не работает у аватара. Немогу понять почему...
 const formValidAvatar = new FormValidator(formAddAvatar, errorMessages);
+
 const userInfo = new UserInfo();
 
 const api = new Api(options);
@@ -95,11 +98,9 @@ function formReset(item) {
 function clearPopup() {
   formValidCardAdd.resetErrorsPopup();
   formValidEdit.resetErrorsPopup();
+  formValidAvatar.resetErrorsPopup();
 
   formValidCardAdd.setSubmitButtonState(false);
-
-  formValidAvatar.resetErrorsPopup();
-  // formValidAvatar.setSubmitButtonState(true);
 }
 
 api.getInitialCards()
@@ -143,6 +144,7 @@ function sendFormAdd(event) {
     })
 }
 
+// Обновление данных пользователя
 function sendFormEdit(event) {
   event.preventDefault();
 
@@ -160,6 +162,7 @@ function sendFormEdit(event) {
     })
 }
 
+// Обновление аватара пользователя
 function sendFormAvatar(event) {
   event.preventDefault();
 
@@ -168,11 +171,15 @@ function sendFormAvatar(event) {
   api.addNewAvatar(link)
     .then(data => {
       openAvatar.style.backgroundImage = `url(${data.avatar})`;
+      formReset(formAddAvatar);
       avatarPopup.close();
     })
     .catch(err => {
       console.log(err);
-    });
+    })
+    .finally(() => {
+      formValidAvatar.setSubmitButtonState(false);
+    })
 }
 
 // Добавление данных пользователя в поля формы

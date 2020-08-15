@@ -46,7 +46,7 @@ export default class Api {
         this._getResponseData(res));
   }
 
-  removeCard = (id) => {
+  removeCard = id => {
     return fetch(`${this.baseUrl}/cards/${id}`, {
       method: 'DELETE',
       headers: this.headers,
@@ -73,7 +73,7 @@ export default class Api {
         this._getResponseData(res));
   }
 
-  addNewAvatar = (link) => {
+  addNewAvatar = link => {
     return fetch(`${this.baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       headers: this.headers,
