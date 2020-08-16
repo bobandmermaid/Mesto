@@ -6,6 +6,7 @@ import FormValidator from "./js/FormValidator"
 import Popup from "./js/Popup"
 import PopupForm from "./js/PopupForm"
 import UserInfo from "./js/UserInfo"
+import Spinner from "./js/Spinner";
 import { config } from "./js/config";
 export const options = JSON.parse(config);
 
@@ -45,7 +46,6 @@ const openAvatar = rootContainer.querySelector('.user-info__photo');
 const closeAvatarButton = rootContainer.querySelector('.popup__close_avatar');
 const userFace = rootContainer.querySelector('.user-info__photo');
 // const inputAvatar = rootContainer.querySelector('.popup__input_type_avatar');
-
 const cardList = new CardList(placesList, cardsArray);
 
 const editPopup = new PopupForm(editForm, openEditButton, closeEditButton, clearPopup);
@@ -58,7 +58,7 @@ const formValidEdit = new FormValidator(formInfoEdit, errorMessages);
 const formValidAvatar = new FormValidator(formAddAvatar, errorMessages);
 
 const userInfo = new UserInfo();
-
+const spinner = new Spinner();
 const api = new Api(options);
 
 function openImageCallback(url) {
@@ -113,12 +113,16 @@ function renderLoading(popup, isLoading, stateElement) {
   }
 }
 
+spinner.loadingSpinner(true);
 api.getInitialCards()
   .then(res => {
-   cardList.render(iteratingArray(res));
+    cardList.render(iteratingArray(res));
   })
   .catch(err => {
-     console.log(err);
+    console.log(err);
+  })
+  .finally(() => {
+    spinner.loadingSpinner(false);
   });
 
 api.getUsersInfo()
