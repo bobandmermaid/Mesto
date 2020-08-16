@@ -18,3 +18,10 @@
   background-color: white;
   color: black;
 }
+
+@media screen and (max-width: 980px) {
+  .user-info__edit {
+    max-width: 40px;
+    align-self: center;
+  }
+}

@@ -103,6 +103,16 @@ function clearPopup() {
   formValidCardAdd.setSubmitButtonState(false);
 }
 
+function renderLoading(popup, isLoading, stateElement) {
+  const button = popup.querySelector('.popup__button');
+
+  if (isLoading) {
+    button.textContent = 'Загрузка...'
+  } else {
+    button.textContent = stateElement
+  }
+}
+
 api.getInitialCards()
   .then(res => {
    cardList.render(iteratingArray(res));
@@ -129,10 +139,12 @@ function sendFormAdd(event) {
   const name = formAddNewCard.elements.name;
 
   formValidCardAdd.setSubmitButtonState(false);
+  renderLoading(cardForm, true, '+');
   api.addCardPage(name, link)
     .then(elem => {
       const card = new Card(elem, userInfo._id, openImageCallback, removeCard, likeState);
       cardList.addCard(card.create());
+      renderLoading(cardForm, false, '+');
       formReset(formAddNewCard);
       cardPopup.close();
     })
@@ -151,10 +163,12 @@ function sendFormEdit(event) {
   const name = inputUser.value;
   const about = inputAbout.value;
 
+  renderLoading(editForm, true, 'Сохранить');
   api.updateUserInfo(name, about)
     .then(data => {
       userInfo.setUserInfo({name: data.name, about: data.about});
       userInfo.updateRender(userNameElement, userAboutElement);
+      renderLoading(editForm, false, 'Сохранить');
       editPopup.close();
     })
     .catch(err => {
@@ -168,9 +182,11 @@ function sendFormAvatar(event) {
 
   const link = formAddAvatar.elements.link;
 
+  renderLoading(avatarForm, true, 'Сохранить');
   api.addNewAvatar(link)
     .then(data => {
       openAvatar.style.backgroundImage = `url(${data.avatar})`;
+      renderLoading(avatarForm, false, 'Сохранить');
       formReset(formAddAvatar);
       avatarPopup.close();
     })
