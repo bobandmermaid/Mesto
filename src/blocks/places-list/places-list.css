@@ -1,3 +1,5 @@
+@import url(./lds-ring.css);
+
 .places-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, 282px);
